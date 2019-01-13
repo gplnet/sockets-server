@@ -20,6 +20,7 @@ export default class Server {
         this.httpServer = new http.Server(this.app);
 
         this.io = socketIO(this.httpServer);
+        this.listenSockets();
     }
 
     public static get instance(){
@@ -28,13 +29,19 @@ export default class Server {
     private listenSockets(){
         console.log('Escuchando conexiones - sockets');
         this.io.on('connection', cliente =>{
-            console.log('Nuevo cliente conectado');
+            //console.log('Nuevo cliente conectado');
+            //console.log(cliente.id);
+
+            //Conectar Cliente
+            socket.conectarCliente(cliente);
 
             //Mensajes
             socket.mensaje(cliente, this.io);
 
             //Desconectar
             socket.desconectar(cliente);
+            //Configurar usuario
+            socket.configurarUsuario(cliente, this.io);
         });
     }
 
